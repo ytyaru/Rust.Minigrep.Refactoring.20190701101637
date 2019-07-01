@@ -17,13 +17,8 @@ impl Config {
 }
 pub fn run(config: Config) -> Result<(), Box<Error>> {
     let mut f = File::open(config.filename)?;
-
     let mut contents = String::new();
-    f.read_to_string(&mut contents)
-        // ファイルの読み込み中に問題がありました
-        .expect("something went wrong reading the file");
-
-    // テキストは\n{}です
+    f.read_to_string(&mut contents)?;
     println!("With text:\n{}", contents);
     Ok(())
 }
