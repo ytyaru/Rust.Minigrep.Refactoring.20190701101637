@@ -3,21 +3,6 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::error::Error;
 
-pub fn main() {
-    // コマンドライン引数受付
-    let args: Vec<String> = std::env::args().collect();
-    let config = Config::new(&args).unwrap_or_else(|err| {
-        println!("異常終了します。引数解析に問題が生じました。: {}", err);
-        std::process::exit(1);
-    });
-    println!("query: {}", config.query);
-    println!("filename: {}", config.filename);
-    // grepを実行する（ファイルから検索する）
-    if let Err(e) = run(config) {
-        println!("アプリエラー: {}", e);
-        std::process::exit(1);
-    };
-}
 pub struct Config {
     pub query: String,
     pub filename: String,
@@ -31,8 +16,6 @@ impl Config {
     }
 }
 pub fn run(config: Config) -> Result<(), Box<Error>> {
-    // ファイルが見つかりませんでした
-//    let mut f = File::open(config.filename).expect("file not found");
     let mut f = File::open(config.filename)?;
 
     let mut contents = String::new();
